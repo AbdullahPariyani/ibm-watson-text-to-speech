@@ -2,7 +2,7 @@
 	<form [formGroup]="searchForm">
 		<div class="form-group">
 			<div class="row">
-				<div class="col-10 mt-2">
+				<div class="col-md-10 mt-2">
 					<textarea id="title" class="form-control shadow"
 						[ngClass]="searchForm.get('title')?.invalid && searchForm.get('title')?.touched? 'is-invalid' : ''" rows="1"
 						placeholder="Enter text for Text to Speech..." formControlName="title" required></textarea>
@@ -12,7 +12,7 @@
 						</span>
 					</div>
 				</div>
-				<div class="col-2 text-center">
+				<div class="col-md-2 text-center">
 					<div class="btn-group mt-2" *ngIf="!formSubmitted">
 						<button class="btn btn-primary" btnCheckbox tabindex="1" (click)="onSubmit(searchForm)" role="button"><i
 								class="fa fa-window-close-o" aria-hidden="true"></i>PLAY</button>

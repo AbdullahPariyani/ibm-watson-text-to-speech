@@ -260,7 +260,21 @@ p {
 .card-deck .card {
     margin-bottom: 15px
 }
+@media only screen and (min-width: 0px) and (max-width: 700px) {
+    td {
+        display:inline-block;
+        padding:5px;
+        width:100%;
+    }
 
+    .refresh-image{
+        width: 15%;
+    }
+
+    .last-record{
+        border-bottom: 2px solid gray;
+    }
+}
 @media (min-width: 576px) {
     .card-deck {
         margin-right:-15px;

@@ -3,16 +3,22 @@ const db = require("../models");
 const TextToSpeech = db.TextToSpeech;
 const fs = require('fs');
 const TextToSpeechV1 = require('ibm-watson/text-to-speech/v1');
-const { IamAuthenticator } = require('ibm-watson/auth');
+const {
+  IamAuthenticator
+} = require('ibm-watson/auth');
 const AWS = require('aws-sdk');
-const { v4: uuidv4 } = require('uuid');
+const {
+  v4: uuidv4
+} = require('uuid');
 let fetchFile = new (require('./fileManager'))()
 
 // Create and Save a new TextToSpeech
 exports.create = (req, res) => {
   // Validate request
   if (!req.body.title) {
-    res.status(400).send({ message: "Content can not be empty!" });
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
     return;
   }
 
@@ -76,16 +82,22 @@ exports.create = (req, res) => {
 // Retrieve all TextToSpeech from the database.
 exports.findAll = (req, res) => {
   const title = req.query.title;
-  var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
+  var condition = title ? {
+    title: {
+      $regex: new RegExp(title),
+      $options: "i"
+    }
+  } : {};
 
-  TextToSpeech.find(condition).sort({ 'updatedAt': -1 })
+  TextToSpeech.find(condition).sort({
+    'updatedAt': -1
+  })
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving TextToSpeech."
+        message: err.message || "Some error occurred while retrieving TextToSpeech."
       });
     });
 };
@@ -97,12 +109,16 @@ exports.findOne = (req, res) => {
   TextToSpeech.findById(id)
     .then(data => {
       if (!data)
-        res.status(404).send({ message: "Not found TextToSpeech with id " + id });
+        res.status(404).send({
+          message: "Not found TextToSpeech with id " + id
+        });
       else res.send(data);
     })
     .catch(err => {
       res
         .status(500)
-        .send({ message: "Error retrieving TextToSpeech with id=" + id });
+        .send({
+          message: "Error retrieving TextToSpeech with id=" + id
+        });
     });
 };

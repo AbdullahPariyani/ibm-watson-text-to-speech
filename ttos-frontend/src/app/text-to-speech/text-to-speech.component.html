@@ -24,15 +24,9 @@
 
 				</div>
 			</div>
-			<div class="row mt-4 fade-in" *ngIf="savedAudioData.length !=0">
-				<div class="col-8"><span *ngIf="sameResultFound" class="text-danger"> Search result already available in the
-						list</span> Audio Text: {{savedAudioData.title | titlecase}}</div>
-				<div class="col-4">
-					<audio controls>
-						<source [src]="savedAudioData.speechURL" type="audio/ogg">
-						<source [src]="savedAudioData.speechURL" type="audio/mpeg">
-						Your browser does not support the audio element.
-					</audio>
+			<div class="row mt-4 fade-in" *ngIf="savedAudioData.length !=0 && sameResultFound">
+				<div class="col-8"><span class="text-danger"> Search text already available in the
+						list</span>
 				</div>
 			</div>
 		</div>

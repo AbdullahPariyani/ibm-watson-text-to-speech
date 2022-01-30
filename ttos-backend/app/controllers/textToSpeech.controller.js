@@ -55,7 +55,6 @@ exports.create = (req, res) => {
       if (error) {
         res.status(500).send(errorMsg + ': S3');
       }
-      console.log(s3Data.key)
       const textToSpeech = new TextToSpeech({
         title: req.body.title,
         speechURL: await fetchFile.getPublicUrl(s3Data.key)

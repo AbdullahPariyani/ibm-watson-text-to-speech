@@ -47,12 +47,16 @@ export class TextToSpeechComponent implements OnInit {
         this.sameResultFound = true;
         this.formSubmitted = false;
         this.savedAudioData = this.commonUtils.textToSpeechList[index];
+        var music = new Audio(this.savedAudioData.speechURL);
+        music.play();
         this.onClear();
         return false;
       }
     }
     this.http.httpPost('TextToSpeech/', this.searchForm.value).subscribe((value) => {
       this.savedAudioData = value;
+      var music = new Audio(this.savedAudioData.speechURL);
+      music.play();
       this.formSubmitted = false;
       this.commonUtils.reloadHistoryList$.next(true);
       this.sameResultFound = false;

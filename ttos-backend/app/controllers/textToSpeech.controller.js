@@ -5,7 +5,6 @@ const fs = require('fs');
 const TextToSpeechV1 = require('ibm-watson/text-to-speech/v1');
 const { IamAuthenticator } = require('ibm-watson/auth');
 const AWS = require('aws-sdk');
-const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 let fetchFile = new (require('./fileManager'))()
 

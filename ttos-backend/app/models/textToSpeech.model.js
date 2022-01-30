@@ -2,6 +2,7 @@ module.exports = mongoose => {
   var schema = mongoose.Schema(
     {
       title: String,
+      fileName: String,
       speechURL: String
     },
     { timestamps: true }

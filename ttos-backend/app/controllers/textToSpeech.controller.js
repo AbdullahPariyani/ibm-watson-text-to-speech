@@ -1,124 +1,63 @@
-require('dotenv').config()
+
 const db = require("../models");
 const TextToSpeech = db.TextToSpeech;
-const fs = require('fs');
 const TextToSpeechV1 = require('ibm-watson/text-to-speech/v1');
-const {
-  IamAuthenticator
-} = require('ibm-watson/auth');
-const AWS = require('aws-sdk');
-const {
-  v4: uuidv4
-} = require('uuid');
-let fetchFile = new (require('./fileManager'))()
+const { IamAuthenticator } = require('ibm-watson/auth');
+const { v4: uuidv4 } = require('uuid');
+const aws = new (require('../config/aws.config'))()
+const { errorMsg, synthesizeParams, textToSpeechParam } = require('../config/constants')
 
-// Create and Save a new TextToSpeech
-exports.create = (req, res) => {
-  // Validate request
-  if (!req.body.title) {
-    res.status(400).send({
-      message: "Content can not be empty!"
+
+exports.create = async (req, res) => {
+  try {
+    const textToSpeechObject = new TextToSpeechV1({
+      authenticator: new IamAuthenticator({
+        apikey: textToSpeechParam.apikey
+      }),
+      serviceUrl: textToSpeechParam.serviceUrl
     });
-    return;
-  }
+    const response = await textToSpeechObject.synthesize({
+      text: req.body.title,
+      accept: synthesizeParams.accept,
+      voice: synthesizeParams.accept.voice
+    });
+    if (!response)
+      res.status(500).send({ message: errorMsg.message + 'synthesize' });
 
-  const errorMsg = {
-    message: "Some went wrong..."
-  }
-
-  const textToSpeech = new TextToSpeechV1({
-    authenticator: new IamAuthenticator({
-      apikey: process.env.I_AM_AUTHENTICATOR_API_KEY,
-    }),
-    serviceUrl: process.env.I_AM_AUTHENTICATOR_SERVICE_URL,
-  });
-
-  const synthesizeParams = {
-    text: req.body.title,
-    accept: 'audio/wav',
-    voice: 'en-US_AllisonV3Voice'
-  };
-
-  const s3 = new AWS.S3({
-    credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    }
-  });
-
-  textToSpeech.synthesize(synthesizeParams).then(response => {
-    return textToSpeech.repairWavHeaderStream(response.result);
-  }).then(buffer => {
-    // fs.writeFileSync('hello_world.mp3', buffer);
-
-    const params = {
-      Bucket: process.env.AWS_BUCKET_NAME,
+    const buffer = await textToSpeechObject.repairWavHeaderStream(response.result);
+    if (!buffer)
+      res.status(500).send({ message: errorMsg.message + 'repairWavHeaderStream' });
+    let s3Data = await aws.upload({
       Key: `${uuidv4()}.mp3`,
       Body: buffer
-    }
-
-    s3.upload(params, async (error, s3Data) => {
-      if (error) {
-        res.status(500).send(errorMsg + ': S3');
-      }
-      const textToSpeech = new TextToSpeech({
-        title: req.body.title,
-        speechURL: await fetchFile.getPublicUrl(s3Data.key)
-      });
-
-      // Save TextToSpeech in the database
-      textToSpeech.save(textToSpeech).then(speechDataResponse => {
-        res.send(speechDataResponse);
-      }).catch(err => {
-        res.status(500).send(errorMsg + ': textToSpeech');
-      });
+    });
+    if (!s3Data)
+      res.status(500).send({ message: errorMsg.message + 's3' });
+    const textToSpeech = await new TextToSpeech({
+      title: req.body.title,
+      fileName: s3Data.key
     });
 
-  }).catch(err => {
-    res.status(500).send(errorMsg + ': main');
-  });
+    let speechDataResponse = await textToSpeech.save(textToSpeech);
+    speechDataResponse.speechURL = await aws.getPublicUrl(speechDataResponse.fileName)
+    res.status(200).send(speechDataResponse);
+  } catch (e) {
+    res.status(500).send({ message: errorMsg.internalServer });
+  }
 };
 
 // Retrieve all TextToSpeech from the database.
-exports.findAll = (req, res) => {
-  const title = req.query.title;
-  var condition = title ? {
-    title: {
-      $regex: new RegExp(title),
-      $options: "i"
+exports.findAll = async (req, res) => {
+  try {
+    const title = req.query && req.query.title && req.query.title.trim();
+    var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
+    let result = await TextToSpeech.find(condition).sort({ 'updatedAt': -1 });
+    for (let i = 0; i < result.length; i++) {
+      result[i].speechURL = await aws.getPublicUrl(result[i].fileName)
     }
-  } : {};
-
-  TextToSpeech.find(condition).sort({
-    'updatedAt': -1
-  })
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: err.message || "Some error occurred while retrieving TextToSpeech."
-      });
-    });
-};
-
-// Find a single TextToSpeech with an id
-exports.findOne = (req, res) => {
-  const id = req.params.id;
-
-  TextToSpeech.findById(id)
-    .then(data => {
-      if (!data)
-        res.status(404).send({
-          message: "Not found TextToSpeech with id " + id
-        });
-      else res.send(data);
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .send({
-          message: "Error retrieving TextToSpeech with id=" + id
-        });
-    });
+    res.status(200).send(result);
+  } catch (e) {
+    console.log(e)
+    res.status(500).send({ message: errorMsg.retrievedError });
+  }
 };

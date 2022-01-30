@@ -42,7 +42,7 @@ export class TextToSpeechComponent implements OnInit {
     this.savedAudioData = [];
 
     if (this.commonUtils.textToSpeechList) {
-      const index = this.commonUtils.textToSpeechList.findIndex((data: any) => data.title.toLowerCase() == this.searchForm.value.title.toLowerCase());
+      const index = this.commonUtils.textToSpeechList.findIndex((data: any) => data.title.toLowerCase().trim() == this.searchForm.value.title.toLowerCase().trim());
       if (index !== -1) {
         this.sameResultFound = true;
         this.formSubmitted = false;

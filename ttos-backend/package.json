@@ -26,7 +26,9 @@
     "ibm-watson": "^6.2.2",
     "mongoose": "^5.8.10",
     "multer": "^1.4.4",
-    "nodemon": "^2.0.15",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }

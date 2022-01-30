@@ -32,9 +32,17 @@
 							</audio>
 						</td>
 					</tr>
-					<tr *ngIf="speechURL.length==0">
+					<tr *ngIf="speechURL.length==0 && listLoaded">
+						<td>No Record found...</td>
 						<td>No Record found...</td>
 						<td class="text-center">-</td>
+					</tr>
+					<tr *ngIf="!listLoaded">
+						<td>
+							<div class="mt-2 spinner-border text-primary" role="status">
+								<span class="sr-only">Loading...</span>
+							</div>
+						</td>
 					</tr>
 				</tbody>
 			</table>

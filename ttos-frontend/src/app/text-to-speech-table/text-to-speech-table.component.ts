@@ -5,8 +5,7 @@ import { HttpService } from '../shared/utils/http.service';
 
 @Component({
   selector: 'app-text-to-speech-table',
-  templateUrl: './text-to-speech-table.component.html',
-  styleUrls: ['./text-to-speech-table.component.scss']
+  templateUrl: './text-to-speech-table.component.html'
 })
 export class TextToSpeechTableComponent implements OnInit {
 

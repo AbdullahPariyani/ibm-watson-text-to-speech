@@ -1,5 +1,3 @@
-const { stringify } = require("nodemon/lib/utils");
-
 module.exports = mongoose => {
   var schema = mongoose.Schema(
     {

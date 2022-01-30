@@ -1,0 +1,101 @@
+{
+	"info": {
+		"_postman_id": "cf2f25a8-95a3-4ce6-913a-3560e5d55817",
+		"name": "Ahoy-Text-To-Speech Prod",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://ahoy-ibm-waston-text-to-speech.herokuapp.com/",
+					"protocol": "https",
+					"host": [
+						"ahoy-ibm-waston-text-to-speech",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Play",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\":\"Hello World by Abdullah Pariyani\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://ahoy-ibm-waston-text-to-speech.herokuapp.com/api/TextToSpeech",
+					"protocol": "https",
+					"host": [
+						"ahoy-ibm-waston-text-to-speech",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"TextToSpeech"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Play",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/TextToSpeech",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"TextToSpeech"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Play by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://ahoy-ibm-waston-text-to-speech.herokuapp.com/api/TextToSpeech/61f57f7f874fcb5574a246f9",
+					"protocol": "https",
+					"host": [
+						"ahoy-ibm-waston-text-to-speech",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"TextToSpeech",
+						"61f57f7f874fcb5574a246f9"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

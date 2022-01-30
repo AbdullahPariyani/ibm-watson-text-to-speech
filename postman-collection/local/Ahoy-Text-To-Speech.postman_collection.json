@@ -1,0 +1,98 @@
+{
+	"info": {
+		"_postman_id": "b27462db-2c17-4098-ac84-70122727516e",
+		"name": "Ahoy-Text-To-Speech",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Play",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\":\"Hello World by Abdullah Pariyani\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/TextToSpeech",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"TextToSpeech"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Play",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/TextToSpeech",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"TextToSpeech"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Play by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/TextToSpeech/61f57f7f874fcb5574a246f9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"TextToSpeech",
+						"61f57f7f874fcb5574a246f9"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

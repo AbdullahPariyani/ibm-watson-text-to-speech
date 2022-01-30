@@ -1,0 +1,42 @@
+<div class="container mt-4 mb-4">
+	<div class="card shadow">
+		<div class="card-header border-0">
+			<div class="row align-items-center">
+				<div class="col">
+					<h3 class="mb-0">History ({{speechURL.length || 0}})</h3>
+				</div>
+				<div class="col text-right">
+					<img src="assets/images/refresh.png" class="cursor-pointer" (click)="getTextToSpeechList()" width="5%" />
+				</div>
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table align-items-center table-flush">
+				<thead class="thead-light">
+					<tr>
+						<th scope="col">Searched Text</th>
+						<th scope="col">Created At</th>
+						<th scope="col-3" class="text-center">Audio</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let aud of speechURL">
+						<td> {{aud.title | titlecase}} </td>
+						<td> {{aud.createdAt | date: 'dd/MM/yyyy hh:mm a'}} </td>
+						<td class="text-right">
+							<audio controls>
+								<source [src]="aud?.speechURL" type="audio/ogg">
+								<source [src]="aud?.speechURL" type="audio/mpeg">
+								Your browser does not support the audio element.
+							</audio>
+						</td>
+					</tr>
+					<tr *ngIf="speechURL.length==0">
+						<td>No Record found...</td>
+						<td class="text-center">-</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

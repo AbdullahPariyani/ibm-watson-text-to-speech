@@ -1,0 +1,40 @@
+<div class="container">
+	<form [formGroup]="searchForm">
+		<div class="form-group">
+			<div class="row">
+				<div class="col-10 mt-2">
+					<textarea id="title" class="form-control shadow"
+						[ngClass]="searchForm.get('title')?.invalid && searchForm.get('title')?.touched? 'is-invalid' : ''" rows="1"
+						placeholder="Enter text for Text to Speech..." formControlName="title" required></textarea>
+					<div class="text-danger" *ngIf="searchForm.get('title')?.dirty || searchForm.get('title')?.touched">
+						<span *ngFor="let error of searchForm.get('title')?.errors|keyvalue">
+							{{validationMessages.title[error.key]}}
+						</span>
+					</div>
+				</div>
+				<div class="col-2 text-center">
+					<div class="btn-group mt-2" *ngIf="!formSubmitted">
+						<button class="btn btn-primary" btnCheckbox tabindex="1" (click)="onSubmit(searchForm)" role="button"><i
+								class="fa fa-window-close-o" aria-hidden="true"></i>PLAY</button>
+						<button class="btn btn-secondary" btnCheckbox tabindex="0" (click)="onClear()" role="button">CLEAR</button>
+					</div>
+					<div class="mt-2 spinner-border text-primary" *ngIf="formSubmitted" role="status">
+						<span class="sr-only">Loading...</span>
+					</div>
+
+				</div>
+			</div>
+			<div class="row mt-4 fade-in" *ngIf="savedAudioData.length !=0">
+				<div class="col-8"><span *ngIf="sameResultFound" class="text-danger"> Search result already available in the
+						list</span> Audio Text: {{savedAudioData.title | titlecase}}</div>
+				<div class="col-4">
+					<audio controls>
+						<source [src]="savedAudioData.speechURL" type="audio/ogg">
+						<source [src]="savedAudioData.speechURL" type="audio/mpeg">
+						Your browser does not support the audio element.
+					</audio>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

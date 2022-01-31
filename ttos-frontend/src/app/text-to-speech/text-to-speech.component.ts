@@ -11,7 +11,6 @@ export class TextToSpeechComponent implements OnInit {
 
   searchForm: FormGroup;
   savedAudioData: any = [];
-  sameResultFound: boolean = false;
   formSubmitted: boolean = false;
 
   validationMessages: any = {
@@ -43,22 +42,21 @@ export class TextToSpeechComponent implements OnInit {
     if (this.commonUtils.textToSpeechList) {
       const index = this.commonUtils.textToSpeechList.findIndex((data: any) => data.title.toLowerCase().trim() == this.searchForm.value.title.toLowerCase().trim());
       if (index !== -1) {
-        this.sameResultFound = true;
+        this.commonUtils.showInfo("", 'Search text already available in the list, Playing your search result');
         this.formSubmitted = false;
         this.savedAudioData = this.commonUtils.textToSpeechList[index];
         var music = new Audio(this.savedAudioData.speechURL);
         music.play();
-        this.onClear();
         return false;
       }
     }
     this.http.httpPost('TextToSpeech/', this.searchForm.value).subscribe((value) => {
+      this.commonUtils.showSuccess("Success", 'Playing your searched result');
       this.savedAudioData = value;
       var music = new Audio(this.savedAudioData.speechURL);
       music.play();
       this.formSubmitted = false;
       this.commonUtils.reloadHistoryList$.next(true);
-      this.sameResultFound = false;
     });
   }
 

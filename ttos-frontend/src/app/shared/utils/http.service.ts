@@ -13,10 +13,6 @@ export class HttpService {
         this.apiEndPoint = environment.TEXT_TO_SPEECH;
     }
 
-    // appendToken(token: string) {
-    //     this.httpOptions.headers = this.httpOptions.headers.set('Authorization', token);
-    // }
-
     httpGet(endpoint: string = '', queryValues: string = ''): Observable<any> {
         return this.httpClient.get(this.apiEndPoint + endpoint + (queryValues ? ('/' + queryValues) : ''), httpOptions);
     }

@@ -28,8 +28,7 @@ export class TextToSpeechTableComponent implements OnInit {
   getTextToSpeechList() {
     this.http.httpGet('TextToSpeech/').subscribe((value) => {
       this.listLoaded = true;
-      this.speechURL = value;
-      this.commonUtils.textToSpeechList = value;
+      this.commonUtils.textToSpeechList = this.speechURL = value;
     });
   }
 

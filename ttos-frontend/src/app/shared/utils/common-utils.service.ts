@@ -8,6 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 export class CommonUtilsService {
   public reloadHistoryList$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public textToSpeechList: any = [];
+
   constructor(private toast: ToastrService) { }
 
   showSuccess(message: string, title: string) {

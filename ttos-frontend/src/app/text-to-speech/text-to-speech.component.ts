@@ -7,16 +7,16 @@ import { HttpService } from '../shared/utils/http.service';
   selector: 'app-text-to-speech',
   templateUrl: './text-to-speech.component.html'
 })
-export class TextToSpeechComponent implements OnInit {
+export class TextToSpeechComponent {
 
   searchForm: FormGroup;
   savedAudioData: any = [];
   formSubmitted: boolean = false;
 
   validationMessages: any = {
-    'title': {
-      'required': 'Title is Required.',
-      'maxlength': 'Title cannot be more than 50 characters long'
+    title: {
+      required: 'Title is Required.',
+      maxlength: 'Title cannot be more than 50 characters long'
     }
   }
 
@@ -27,9 +27,6 @@ export class TextToSpeechComponent implements OnInit {
         Validators.maxLength(50)
       ])
     });
-  }
-
-  ngOnInit(): void {
   }
 
   onSubmit(form: FormGroup) {
@@ -45,16 +42,15 @@ export class TextToSpeechComponent implements OnInit {
         this.commonUtils.showInfo("", 'Search text already available in the list, Playing your search result');
         this.formSubmitted = false;
         this.savedAudioData = this.commonUtils.textToSpeechList[index];
-        var music = new Audio(this.savedAudioData.speechURL);
-        music.play();
+        this.playAudio(this.savedAudioData.speechURL);
         return false;
       }
     }
     this.http.httpPost('TextToSpeech/', this.searchForm.value).subscribe((value) => {
       this.commonUtils.showSuccess("Success", 'Playing your searched result');
       this.savedAudioData = value;
-      var music = new Audio(this.savedAudioData.speechURL);
-      music.play();
+      console.log(typeof this.savedAudioData.speechURL);
+      this.playAudio(this.savedAudioData.speechURL);
       this.formSubmitted = false;
       this.commonUtils.reloadHistoryList$.next(true);
     });
@@ -62,6 +58,11 @@ export class TextToSpeechComponent implements OnInit {
 
   onClear() {
     this.searchForm.reset();
+  }
+
+  private playAudio(audioData: any) {
+    const music = new Audio(audioData);
+    music.play();
   }
 
 }

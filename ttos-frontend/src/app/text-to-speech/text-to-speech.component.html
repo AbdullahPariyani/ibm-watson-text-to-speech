@@ -13,15 +13,16 @@
 					</div>
 				</div>
 				<div class="col-md-2 text-center">
-					<div class="btn-group mt-2" *ngIf="!formSubmitted">
+					<div class="btn-group mt-2" *ngIf="!formSubmitted; else loading">
 						<button class="btn btn-primary" btnCheckbox tabindex="1" (click)="onSubmit(searchForm)" role="button"><i
 								class="fa fa-window-close-o" aria-hidden="true"></i>PLAY</button>
 						<button class="btn btn-secondary" btnCheckbox tabindex="0" (click)="onClear()" role="button">CLEAR</button>
 					</div>
-					<div class="mt-2 spinner-border text-primary" *ngIf="formSubmitted" role="status">
-						<span class="sr-only">Loading...</span>
-					</div>
-
+					<ng-template #loading>
+						<div class="mt-2 spinner-border text-primary">
+							<span class="sr-only">Loading...</span>
+						</div>
+					</ng-template>
 				</div>
 			</div>
 		</div>

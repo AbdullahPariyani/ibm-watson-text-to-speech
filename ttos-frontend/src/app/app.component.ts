@@ -8,6 +8,7 @@ import { HttpService } from './shared/utils/http.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  title = 'Ahoy Text To Speech';
   listLoaded = false;
   speechData: any = [];
 

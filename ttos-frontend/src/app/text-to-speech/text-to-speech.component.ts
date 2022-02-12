@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { CommonUtilsService } from '../shared/utils/common-utils.service';
+import { ToastrService } from 'ngx-toastr';
+import { TextToSpeech } from '../shared/interface/textToSpeech';
 import { HttpService } from '../shared/utils/http.service';
 
 @Component({
@@ -10,8 +11,10 @@ import { HttpService } from '../shared/utils/http.service';
 export class TextToSpeechComponent {
 
   searchForm: FormGroup;
-  savedAudioData: any = [];
   formSubmitted: boolean = false;
+
+  @Input() speechData: any = [];
+  @Output() refreshList = new EventEmitter();
 
   validationMessages: any = {
     title: {
@@ -20,7 +23,7 @@ export class TextToSpeechComponent {
     }
   }
 
-  constructor(private http: HttpService, private commonUtils: CommonUtilsService) {
+  constructor(private http: HttpService, private toast: ToastrService) {
     this.searchForm = new FormGroup({
       title: new FormControl('', [
         Validators.required,
@@ -34,25 +37,22 @@ export class TextToSpeechComponent {
       return false;
     }
     this.formSubmitted = true;
-    this.savedAudioData = [];
 
-    if (this.commonUtils.textToSpeechList) {
-      const index = this.commonUtils.textToSpeechList.findIndex((data: any) => data.title.toLowerCase().trim() == this.searchForm.value.title.toLowerCase().trim());
+    if (this.speechData) {
+      const index = this.speechData.findIndex((data: TextToSpeech) => data.title.toLowerCase().trim() == this.searchForm.value.title.toLowerCase().trim());
       if (index !== -1) {
-        this.commonUtils.showInfo("", 'Search text already available in the list, Playing your search result');
+        this.toast.info("", 'Search text already available in the list, Playing your search result');
         this.formSubmitted = false;
-        this.savedAudioData = this.commonUtils.textToSpeechList[index];
-        this.playAudio(this.savedAudioData.speechURL);
+        this.playAudio(this.speechData[index].speechURL);
         return false;
       }
     }
-    this.http.httpPost('TextToSpeech/', this.searchForm.value).subscribe((value) => {
-      this.commonUtils.showSuccess("Success", 'Playing your searched result');
-      this.savedAudioData = value;
-      console.log(typeof this.savedAudioData.speechURL);
-      this.playAudio(this.savedAudioData.speechURL);
+
+    this.http.httpPost('TextToSpeech/', this.searchForm.value).subscribe((value: TextToSpeech) => {
+      this.toast.success("Success", 'Playing your searched result');
+      this.playAudio(value.speechURL);
       this.formSubmitted = false;
-      this.commonUtils.reloadHistoryList$.next(true);
+      this.refreshList.emit(true);
     });
   }
 

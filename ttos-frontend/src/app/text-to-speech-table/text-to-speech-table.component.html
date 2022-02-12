@@ -3,7 +3,7 @@
 		<div class="card-header border-0">
 			<div class="row align-items-center">
 				<div class="col">
-					<h3 class="mb-0">History ({{speechURL.length || 0}})</h3>
+					<h3 class="mb-0">History ({{speechData.length || 0}})</h3>
 				</div>
 				<div class="col text-right">
 					<img src="assets/images/refresh.png" class="cursor-pointer refresh-image" (click)="getTextToSpeechList()"
@@ -21,7 +21,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr *ngFor="let aud of speechURL">
+					<tr *ngFor="let aud of speechData">
 						<td> {{aud.title | titlecase}} </td>
 						<td> {{aud.createdAt | date: 'dd/MM/yyyy hh:mm a'}} </td>
 						<td class="text-right last-record">
@@ -32,7 +32,7 @@
 							</audio>
 						</td>
 					</tr>
-					<tr *ngIf="speechURL.length==0 && listLoaded">
+					<tr *ngIf="speechData.length==0 && listLoaded">
 						<td>No Record found...</td>
 						<td>No Record found...</td>
 						<td class="text-center">-</td>

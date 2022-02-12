@@ -1,3 +1,5 @@
 <app-header></app-header>
-<app-text-to-speech></app-text-to-speech>
-<app-text-to-speech-table></app-text-to-speech-table>
+<app-text-to-speech [speechData]="speechData" (refreshList)="getTextToSpeechList()"></app-text-to-speech>
+
+<app-text-to-speech-table [speechData]="speechData" [listLoaded]="listLoaded" (refreshList)="getTextToSpeechList()">
+</app-text-to-speech-table>

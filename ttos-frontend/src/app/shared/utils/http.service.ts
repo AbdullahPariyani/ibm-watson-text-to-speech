@@ -9,6 +9,7 @@ const httpOptions = {
 @Injectable()
 export class HttpService {
     apiEndPoint: string;
+
     constructor(public httpClient: HttpClient) {
         this.apiEndPoint = environment.TEXT_TO_SPEECH;
     }

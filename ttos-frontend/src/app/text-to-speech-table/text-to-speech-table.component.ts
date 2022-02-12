@@ -1,35 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CommonUtilsService } from '../shared/utils/common-utils.service';
-import { HttpService } from '../shared/utils/http.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-text-to-speech-table',
   templateUrl: './text-to-speech-table.component.html'
 })
-export class TextToSpeechTableComponent implements OnInit {
+export class TextToSpeechTableComponent {
 
-  listLoaded = false;
-  speechURL: any = [];
+  @Input() speechData: any = [];
+  @Input() listLoaded: boolean = false;
+  @Output() refreshList = new EventEmitter();
 
-  constructor(private http: HttpService, private commonUtils: CommonUtilsService) {
-    this.getTextToSpeechList();
-  }
-
-  ngOnInit(): void {
-    this.commonUtils.reloadHistoryList$.subscribe(value => {
-      if (value) {
-        this.getTextToSpeechList();
-        this.commonUtils.reloadHistoryList$.next(false);
-      }
-    });
+  constructor() {
   }
 
   getTextToSpeechList() {
-    this.http.httpGet('TextToSpeech/').subscribe((value) => {
-      this.listLoaded = true;
-      this.commonUtils.textToSpeechList = this.speechURL = value;
-    });
+    this.refreshList.emit(true);
   }
 
 }

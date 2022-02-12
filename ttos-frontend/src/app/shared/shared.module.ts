@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonUtilsService } from './utils/common-utils.service';
 import { HeaderComponent } from './components/header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
@@ -23,8 +22,7 @@ import { HttpClientModule } from '@angular/common/http';
         HeaderComponent
     ],
     providers: [
-        HttpService,
-        CommonUtilsService
+        HttpService
     ],
     declarations: [
         HeaderComponent

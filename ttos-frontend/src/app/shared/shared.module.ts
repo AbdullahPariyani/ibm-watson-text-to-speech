@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { HttpService } from './utils/http.service';
 import { HttpClientModule } from '@angular/common/http';
+import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 
 @NgModule({
     imports: [
@@ -14,7 +15,8 @@ import { HttpClientModule } from '@angular/common/http';
         ReactiveFormsModule,
         BrowserAnimationsModule,
         ToastrModule.forRoot(),
-        HttpClientModule
+        HttpClientModule,
+        HttpCacheInterceptorModule.forRoot()
     ],
     exports: [
         FormsModule,

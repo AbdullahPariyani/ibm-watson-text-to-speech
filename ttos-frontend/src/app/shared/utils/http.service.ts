@@ -4,9 +4,8 @@ import { withCache } from '@ngneat/cashew';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-const httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-    context: withCache()
+const httpOptions: any = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 @Injectable()
 export class HttpService {
@@ -17,7 +16,7 @@ export class HttpService {
     }
 
     httpGet(endpoint: string = '', queryValues: string = ''): Observable<any> {
-        return this.httpClient.get(this.apiEndPoint + endpoint + (queryValues ? ('/' + queryValues) : ''), httpOptions);
+        return this.httpClient.get(this.apiEndPoint + endpoint + (queryValues ? ('/' + queryValues) : ''), { ...httpOptions, context: withCache() });
     }
 
     httpPost(endpoint: string = '', data: any): Observable<any> {

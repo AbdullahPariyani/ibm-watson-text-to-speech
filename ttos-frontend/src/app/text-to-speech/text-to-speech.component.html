@@ -7,7 +7,7 @@
 						[ngClass]="searchForm.get('title')?.invalid && searchForm.get('title')?.touched? 'is-invalid' : ''" rows="1"
 						placeholder="Enter text for Text to Speech..." formControlName="title" required></textarea>
 					<div class="text-danger" *ngIf="searchForm.get('title')?.dirty || searchForm.get('title')?.touched">
-						<span *ngFor="let error of searchForm.get('title')?.errors|keyvalue">
+						<span *ngFor="let error of searchForm.get('title')?.errors | keyvalue">
 							{{validationMessages.title[error.key]}}
 						</span>
 					</div>

@@ -38,10 +38,11 @@ export class TextToSpeechComponent {
     }
     this.formSubmitted = true;
 
+    // Check if search result is already exist in the list:
     if (this.speechData) {
       const index = this.speechData.findIndex((data: TextToSpeech) => data.title.toLowerCase().trim() == this.searchForm.value.title.toLowerCase().trim());
       if (index !== -1) {
-        this.toast.info("", 'Search text already available in the list, Playing your search result');
+        this.toast.info('Search text already available in the list, Playing your search result');
         this.formSubmitted = false;
         this.playAudio(this.speechData[index].speechURL);
         return false;

@@ -14,7 +14,6 @@ export class TextToSpeechComponent {
   formSubmitted: boolean = false;
 
   @Input() speechData: any = [];
-  @Input() isUserOnline: boolean = false;
   @Output() refreshList = new EventEmitter();
 
   validationMessages: any = {

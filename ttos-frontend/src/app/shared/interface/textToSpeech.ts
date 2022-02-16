@@ -6,3 +6,8 @@ export interface TextToSpeech {
 	updatedAt: string;
 	title: string;
 }
+
+export enum INTERNET_STATUS {
+	ONLINE = "online",
+	OFFLINE = "offline"
+}

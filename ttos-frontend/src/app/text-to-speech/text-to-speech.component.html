@@ -12,7 +12,7 @@
 						</span>
 					</div>
 				</div>
-				<div class="col-md-2 text-center">
+				<div class="col-md-2 text-center" *ngIf="isUserOnline">
 					<div class="btn-group mt-2" *ngIf="!formSubmitted; else loading">
 						<button class="btn btn-primary" btnCheckbox tabindex="1" (click)="onSubmit(searchForm)" role="button"><i
 								class="fa fa-window-close-o" aria-hidden="true"></i>PLAY</button>

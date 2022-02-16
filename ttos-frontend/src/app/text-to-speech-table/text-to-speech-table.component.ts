@@ -8,6 +8,7 @@ export class TextToSpeechTableComponent {
 
   @Input() speechData: any = [];
   @Input() listLoaded: boolean = false;
+  @Input() isUserOnline: boolean = false;
   @Output() refreshList = new EventEmitter();
 
   constructor() {

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { fromEvent } from 'rxjs';
 import { TextToSpeech } from './shared/interface/textToSpeech';
 import { HttpService } from './shared/utils/http.service';
 
@@ -10,10 +11,17 @@ import { HttpService } from './shared/utils/http.service';
 export class AppComponent {
   title = 'Ahoy Text To Speech';
   listLoaded = false;
+  isUserOnline = true;
   speechData: any = [];
 
   constructor(private http: HttpService) {
     this.getTextToSpeechList();
+    fromEvent(window, 'online').subscribe((resp: any) => {
+      this.isUserOnline = true;
+    });
+    fromEvent(window, 'offline').subscribe((resp: any) => {
+      this.isUserOnline = false;
+    });
   }
 
   getTextToSpeechList() {
